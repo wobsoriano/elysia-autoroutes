@@ -73,6 +73,25 @@ app.use(autoroutes({
 export const get = () => 'Hello world!'
 ```
 
+### 6. Hooks
+
+
+```ts
+// file: routes/hello.ts
+// url: http://localhost:3000/api/hello
+import { t } from 'elysia'
+
+export const get = {
+  handler: ({ body }) => body,
+  hooks: {
+    body: t.Object({
+        username: t.String(),
+        password: t.String()
+    })
+  }
+}
+```
+
 ## TODO
 
 Context and hook types. And more tests.
