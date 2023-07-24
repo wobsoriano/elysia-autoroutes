@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
-    "bun-types": "^0.6.5",
+    "bun-types": "^0.7.0",
     "dts-bundle-generator": "^8.0.1",
     "elysia": "^0.5.24",
     "eslint": "^8.45.0",

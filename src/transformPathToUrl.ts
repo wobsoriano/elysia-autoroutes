@@ -11,9 +11,13 @@ export function transformPathToUrl(file: string, routePrefix = '/') {
   // Add prefix
   routeName = !routeName ? '/' : `${routePrefix}${routeName}`
 
-  // Remove trailing slash
-  if (routeName.endsWith(path.sep))
-    routeName = routeName.substring(0, routeName.length - 1)
+  // This removes the last slash from the string if it exists
+  if (routeName.endsWith('/'))
+    routeName = routeName.slice(0, -1)
+
+  // This handle the case when only index remains, so a default route is created
+  if (routeName.length === 0)
+    return '/'
 
   return routeName.replace('//', '/')
 }

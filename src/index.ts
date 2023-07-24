@@ -37,7 +37,6 @@ export function autoroutes(options?: Options) {
 
     for (const file of files) {
       const routeName = transformPathToUrl(file.replace(dirPath, ''), routePrefix)
-
       const routeModule = await import(file)
 
       for (const [method, handler] of Object.entries(routeModule)) {
