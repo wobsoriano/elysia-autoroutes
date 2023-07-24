@@ -85,8 +85,8 @@ export const post = {
   handler: ({ body }) => body,
   hooks: {
     body: t.Object({
-        username: t.String(),
-        password: t.String()
+      username: t.String(),
+      password: t.String()
     })
   }
 }

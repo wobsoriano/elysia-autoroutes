@@ -6,13 +6,11 @@ async function build() {
     outdir: './dist',
     minify: false,
     target: 'node',
-    external: ['pathe', 'fast-glob']
+    external: ['pathe', 'fast-glob'],
   })
 
-  if (result.success) {
-    Bun.spawn(["dts-bundle-generator", entrypoint, "-o", "dist/index.d.ts"])
-  }
+  if (result.success)
+    Bun.spawn(['dts-bundle-generator', entrypoint, '-o', 'dist/index.d.ts'])
 }
 
 build()
-

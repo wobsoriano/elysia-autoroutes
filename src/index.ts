@@ -1,4 +1,4 @@
-import { Elysia } from 'elysia'
+import type { Elysia } from 'elysia'
 import path from 'pathe'
 import fg from 'fast-glob'
 import { transformPathToUrl } from './transformPathToUrl'
@@ -28,7 +28,7 @@ export function autoroutes(options?: Options) {
     }
 
     const dirPath = getRoutesCWD(routesDir)
-    
+
     const files = await fg('**/*.{ts,js,mjs}', {
       cwd: dirPath,
       absolute: true,
@@ -36,33 +36,31 @@ export function autoroutes(options?: Options) {
     })
 
     for (const file of files) {
-      const routeName = transformPathToUrl(file.replace(dirPath, ''), routePrefix);
+      const routeName = transformPathToUrl(file.replace(dirPath, ''), routePrefix)
 
       const routeModule = await import(file)
 
       for (const [method, handler] of Object.entries(routeModule)) {
-        if (typeof handler === 'function') {
+        if (typeof handler === 'function')
           app[method as unknown as Lowercase<ValidMethods>](routeName, handler as FixMe)
-        } else {
+        else
           app[method as unknown as Lowercase<ValidMethods>](routeName, (handler as FixMe).handler, (handler as FixMe).hooks)
-        }
       }
     }
 
-    return app;
+    return app
   }
 }
 
 function getRoutesCWD(dir: string) {
   let dirPath: string
 
-  if (path.isAbsolute(dir)) {
+  if (path.isAbsolute(dir))
     dirPath = dir
-  } else if (path.isAbsolute(process.argv[1])) {
+  else if (path.isAbsolute(process.argv[1]))
     dirPath = path.join(process.argv[1].substring(0, process.argv[1].lastIndexOf('/')), dir)
-  } else {
+  else
     dirPath = path.join(process.cwd(), process.argv[1].substring(0, process.argv[1].lastIndexOf('/')), dir)
-  }
 
   return dirPath
 }

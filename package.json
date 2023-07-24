@@ -1,19 +1,8 @@
 {
   "name": "elysia-autoroutes",
   "version": "0.0.3",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "description": "",
-  "scripts": {
-    "build": "bun run build.ts",
-    "prepublishOnly": "bun run build"
-  },
-  "files": [
-    "dist"
-  ],
-  "keywords": [
-    "bun"
-  ],
+  "author": "Robert Soriano <sorianorobertc@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/wobsoriano/elysia-autoroutes#readme",
   "repository": {
@@ -21,18 +10,34 @@
     "url": "git+https://github.com/wobsoriano/elysia-autoroutes.git"
   },
   "bugs": "https://github.com/wobsoriano/elysia-autoroutes/issues",
-  "author": "Robert Soriano <sorianorobertc@gmail.com>",
+  "keywords": [
+    "bun"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "bun run build.ts",
+    "prepublishOnly": "bun run build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
   "peerDependencies": {
     "elysia": ">= 0.5.22"
-  },
-  "devDependencies": {
-    "bun-types": "^0.6.5",
-    "dts-bundle-generator": "^8.0.1",
-    "elysia": "^0.5.24",
-    "typescript": "5.1.6"
   },
   "dependencies": {
     "fast-glob": "^3.3.1",
     "pathe": "^1.1.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.39.8",
+    "bun-types": "^0.6.5",
+    "dts-bundle-generator": "^8.0.1",
+    "elysia": "^0.5.24",
+    "eslint": "^8.45.0",
+    "eslint-plugin-import": "^2.27.5",
+    "typescript": "5.1.6"
   }
 }
