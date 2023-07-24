@@ -30,8 +30,8 @@ new Elysia()
 // file: routes/hello.ts
 // url: http://localhost:3000/hello
 
-export default {
-  get: () => 'Hello world!'
+export function get() {
+  return 'Hello world!'
 }
 ```
 
@@ -41,8 +41,8 @@ export default {
 // file: routes/todo/[todoId].ts
 // url: http://localhost:3000/todo/:todoId
 
-export default {
-  get: (context) => `Todo id: ${context.params.todoId}`
+export function get(context) {
+  return `Todo id: ${context.params.todoId}`
 }
 ```
 
@@ -52,8 +52,8 @@ export default {
 // file: routes/profile/[...id].ts
 // url: http://localhost:3000/profile/*
 
-export default {
-  get: (context) => ({ wildcard: context.params })
+export function get(context) {
+  return { wildcard: context.params }
 }
 ```
 
@@ -68,9 +68,7 @@ app.use(autoroutes({
   prefix: '/api'
 }))
 
-export default {
-  get: () => 'Hello world!'
-}
+export const get = () => 'Hello world!'
 ```
 
 ## TODO
