@@ -11,6 +11,10 @@ app.get("/", async (context) => {
   return 'Hello'
 })
 
+app.get('/basic/*', (context) => {
+  return context.params
+})
+
 app.listen(3000);
 
 console.log(
