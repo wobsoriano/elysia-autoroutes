@@ -1,6 +1,6 @@
 # elysia-autoroutes
 
-File-system routes for [Elysia.js](https://elysiajs.com/).
+File-system routes for [Elysia.js](https://elysiajs.com/). In Progress.
 
 ## Install
 
