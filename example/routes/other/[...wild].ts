@@ -1,1 +1,3 @@
-export const get = (context: any) => context.params
+import { Context } from "elysia";
+
+export const get = (context: Context) => context.params

@@ -40,8 +40,9 @@ export function get() {
 ```ts
 // file: routes/todo/[todoId].ts
 // url: http://localhost:3000/todo/:todoId
+import { Context } from 'elysia'
 
-export function get(context) {
+export function get(context: Context) {
   return `Todo id: ${context.params.todoId}`
 }
 ```
@@ -51,8 +52,9 @@ export function get(context) {
 ```ts
 // file: routes/profile/[...id].ts
 // url: http://localhost:3000/profile/*
+import { Context } from 'elysia'
 
-export function get(context) {
+export function get(context: Context) {
   return { wildcard: context.params }
 }
 ```
