@@ -1,5 +1,1 @@
-export default {
-  get(context: any) {
-    return context.params
-  }
-}
+export const get = (context: any) => context.params

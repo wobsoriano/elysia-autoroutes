@@ -1,5 +1,1 @@
-export default {
-  get() {
-    return 'Hello world'
-  }
-}
+export const get = () => 'Hello world'

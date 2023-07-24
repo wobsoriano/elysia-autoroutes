@@ -35,20 +35,16 @@ export function autoroutes(options?: Options) {
       onlyFiles: true,
     })
 
-    const routesModules: Record<string, FixMe> = {}
-
     for (const file of files) {
       const routeName = transformPathToUrl(file.replace(dirPath, ''), routePrefix);
 
-      routesModules[routeName] = await import(file).then(r => r.default || r)
+      const routeModule = await import(file)
 
-      for (const [url, module] of Object.entries(routesModules)) {
-        for (const [method, handler] of Object.entries(module)) {
-          if (typeof handler === 'function') {
-            app[method as unknown as Lowercase<ValidMethods>](url, handler as FixMe)
-          } else {
-            app[method as unknown as Lowercase<ValidMethods>](url, (handler as FixMe).handler, (handler as FixMe).hooks)
-          }
+      for (const [method, handler] of Object.entries(routeModule)) {
+        if (typeof handler === 'function') {
+          app[method as unknown as Lowercase<ValidMethods>](routeName, handler as FixMe)
+        } else {
+          app[method as unknown as Lowercase<ValidMethods>](routeName, (handler as FixMe).handler, (handler as FixMe).hooks)
         }
       }
     }
