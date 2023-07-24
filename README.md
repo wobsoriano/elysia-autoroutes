@@ -73,6 +73,10 @@ export default {
 }
 ```
 
+## TODO
+
+Context and hook types. And more tests.
+
 ## License
 
 MIT
