@@ -78,10 +78,10 @@ export const get = () => 'Hello world!'
 
 ```ts
 // file: routes/hello.ts
-// url: http://localhost:3000/api/hello
+// url: POST http://localhost:3000/hello
 import { t } from 'elysia'
 
-export const get = {
+export const post = {
   handler: ({ body }) => body,
   hooks: {
     body: t.Object({
