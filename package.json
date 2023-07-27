@@ -27,10 +27,6 @@
   "peerDependencies": {
     "elysia": ">= 0.5.22"
   },
-  "dependencies": {
-    "fast-glob": "^3.3.1",
-    "pathe": "^1.1.1"
-  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
     "bun-types": "^0.7.0",

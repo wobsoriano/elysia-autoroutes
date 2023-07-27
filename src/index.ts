@@ -1,5 +1,4 @@
 import type { Elysia } from 'elysia'
-import path from 'pathe'
 import { autoload } from './utils'
 
 export interface Options {
@@ -15,23 +14,8 @@ export function autoroutes(options?: Options) {
       prefix: options?.prefix ?? '',
     }
 
-    const dirPath = getDirPath(routesDir)
-
-    await autoload(app, dirPath, routePrefix)
+    await autoload(app, routesDir, routePrefix)
 
     return app
   }
-}
-
-function getDirPath(dir: string) {
-  let dirPath: string
-
-  if (path.isAbsolute(dir))
-    dirPath = dir
-  else if (path.isAbsolute(process.argv[1]))
-    dirPath = path.join(process.argv[1], '..', dir)
-  else
-    dirPath = path.join(process.cwd(), process.argv[1], '..', dir)
-
-  return dirPath
 }
