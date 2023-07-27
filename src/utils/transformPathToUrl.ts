@@ -1,27 +1,27 @@
 import path from 'pathe'
 import { handleParameters } from './handleParameters'
 
-export function transformPathToUrl(filePath: string): string {
-  const url: string = `/${filePath}`
+export function transformPathToUrl(filePath: string) {
+  const url = `/${filePath}` // Add leading slash to the URL
 
   if (url.length === 1)
-    return url
+    return url // If the URL is just "/", return it as is
 
-  let resultUrl: string = url
+  const resultUrl = url
     .split(path.sep)
     .map(part => handleParameters(part))
-    .join('/')
+    .join('/') // Map and join the URL parts using handleParameters function
 
-  if (resultUrl.endsWith('index'))
-    resultUrl = resultUrl.replace('index', '')
+  // Remove 'index' from the end of the URL if it exists
+  let finalUrl = resultUrl.endsWith('index') ? resultUrl.replace(/\/?index$/, '') : resultUrl
 
-  // This removes the last slash from the string if it exists
-  if (resultUrl.endsWith('/'))
-    resultUrl = resultUrl.slice(0, -1)
+  // Remove the trailing slash from the URL if it exists
+  finalUrl = finalUrl.replace(/\/$/, '')
 
-  // This handle the case when only index remains, so a default route is created
-  if (resultUrl.length === 0)
+  // If the URL is empty, replace it with the root path "/"
+  if (finalUrl.length === 0)
     return '/'
 
-  return resultUrl.replace('//', '/')
+  // Replace multiple slashes with a single slash
+  return finalUrl.replace(/\/{2,}/g, '/')
 }
