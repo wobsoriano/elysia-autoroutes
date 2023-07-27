@@ -16,10 +16,8 @@ export async function autoload(app: Elysia, dirPath: string, routePrefix: string
   type RouteHooks = Parameters<Elysia['get']>[2]
 
   for (const file of files) {
-    const url = transformPathToUrl(file.replace(dirPath, ''))
-    const routeName = routePrefix ? `/${routePrefix}${url}` : url
+    const routeName = transformPathToUrl(file.replace(dirPath, ''), routePrefix)
     const routeModule = await import(file)
-
     for (const [method, handler] of Object.entries(routeModule)) {
       const normalizedMethod = method.toUpperCase() as ValidMethods
 
