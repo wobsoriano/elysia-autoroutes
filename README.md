@@ -94,7 +94,7 @@ export const post = {
 
 ## TODO
 
-Context and hook types. And more tests.
+Context and hook types.
 
 ## License
 
