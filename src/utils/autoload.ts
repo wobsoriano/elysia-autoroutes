@@ -21,13 +21,14 @@ export async function autoload(app: Elysia, dirPath: string, routePrefix: string
     const routeModule = await import(file)
 
     for (const [method, handler] of Object.entries(routeModule)) {
-      if (!validMethods.includes(method.toUpperCase() as ValidMethods))
-        continue
+      const normalizedMethod = method.toUpperCase() as ValidMethods
 
-      if (typeof handler === 'function')
-        app[method as unknown as Lowercase<ValidMethods>](routeName, handler as RouteHandler)
-      else
-        app[method as unknown as Lowercase<ValidMethods>](routeName, (handler as { handler: RouteHandler }).handler, (handler as { hooks: RouteHooks }).hooks)
+      if (validMethods.includes(normalizedMethod)) {
+        if (typeof handler === 'function')
+          app[method as unknown as Lowercase<ValidMethods>](routeName, handler as RouteHandler)
+        else
+          app[method as unknown as Lowercase<ValidMethods>](routeName, (handler as { handler: RouteHandler }).handler, (handler as { hooks: RouteHooks }).hooks)
+      }
     }
   }
 }
