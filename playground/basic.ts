@@ -4,12 +4,8 @@ import { autoroutes } from '../src'
 const app = new Elysia()
 
 app.use(autoroutes({
-  prefix: '/api',
+  // prefix: '/api',
 }))
-
-app.get('/', async (context) => {
-  return 'Hello'
-})
 
 app.get('/basic/*', (context) => {
   return context.params

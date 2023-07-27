@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { handleParameters } from './handleParameters'
 
-export function transformPathToUrl(filePath: string, routePrefix: string) {
+export function transformPathToUrl(filePath: string) {
   const url = `/${filePath}` // Add leading slash to the URL
 
   if (url.length === 1)
@@ -20,10 +20,7 @@ export function transformPathToUrl(filePath: string, routePrefix: string) {
 
   // If the URL is empty, replace it with the root path "/"
   if (finalUrl.length === 0)
-    return routePrefix || '/'
-
-  // Add the route prefix to the URL
-  finalUrl = routePrefix ? `${routePrefix}${finalUrl}` : finalUrl
+    return '/'
 
   // Replace multiple slashes with a single slash
   return finalUrl.replace(/\/{2,}/g, '/')

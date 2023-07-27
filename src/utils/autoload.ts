@@ -14,19 +14,29 @@ export async function autoload(app: Elysia, routesDir: string, routePrefix: stri
     dir: getDirPath(routesDir),
   })
 
+  const routeModules: Record<string, any> = {}
+
   for (const [routeName, file] of Object.entries(router.routes)) {
     const routeModule = await import(file)
-    const routeNameWithPrefix = transformPathToUrl(routeName, routePrefix).replace(/\/$/, '')
-    for (const [method, handler] of Object.entries(routeModule)) {
-      const normalizedMethod = method.toUpperCase() as ValidMethods
-      if (validMethods.includes(normalizedMethod)) {
-        if (typeof handler === 'function')
-          app[method as unknown as Lowercase<ValidMethods>](routeNameWithPrefix, handler as RouteHandler)
-        else
-          app[method as unknown as Lowercase<ValidMethods>](routeNameWithPrefix, (handler as { handler: RouteHandler }).handler, (handler as { hooks: RouteHooks }).hooks)
+    const routeNameWithPrefix = transformPathToUrl(routeName)
+    routeModules[routeNameWithPrefix] = routeModule
+  }
+
+  app.group(routePrefix, (app) => {
+    for (const [routeName, routeModule] of Object.entries(routeModules)) {
+      for (const [method, handler] of Object.entries(routeModule)) {
+        const normalizedMethod = method.toUpperCase() as ValidMethods
+        if (validMethods.includes(normalizedMethod)) {
+          if (typeof handler === 'function')
+            app[method as unknown as Lowercase<ValidMethods>](routeName, handler as RouteHandler)
+          else
+            app[method as unknown as Lowercase<ValidMethods>](routeName, (handler as { handler: RouteHandler }).handler, (handler as { hooks: RouteHooks }).hooks)
+        }
       }
     }
-  }
+
+    return app
+  })
 }
 
 function getDirPath(dir: string) {

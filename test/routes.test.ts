@@ -3,7 +3,7 @@ import Elysia from 'elysia'
 import { autoroutes } from '../src'
 
 const app = new Elysia()
-  .use(autoroutes({ routesDir: './routes', prefix: '/api' }))
+  .use(autoroutes({ routesDir: './routes' }))
   .listen(8000)
 
 describe('routes', () => {
@@ -11,7 +11,7 @@ describe('routes', () => {
 
   test('index', async () => {
     const response = await app.handle(
-      new Request('http://localhost/api'),
+      new Request('http://localhost/'),
     ).then(res => res.text())
 
     expect(response).toBe('index')
@@ -19,7 +19,7 @@ describe('routes', () => {
 
   test('basic get', async () => {
     const response = await app.handle(
-      new Request('http://localhost/api/user'),
+      new Request('http://localhost/user'),
     ).then(res => res.text())
 
     expect(response).toBe('get user')
@@ -27,7 +27,7 @@ describe('routes', () => {
 
   test('basic post', async () => {
     const response = await app.handle(
-      new Request('http://localhost/api/user', { method: 'POST' }),
+      new Request('http://localhost/user', { method: 'POST' }),
     ).then(res => res.text())
 
     expect(response).toBe('post user')
@@ -35,7 +35,7 @@ describe('routes', () => {
 
   test('with params', async () => {
     const response = await app.handle(
-      new Request('http://localhost/api/user/101'),
+      new Request('http://localhost/user/101'),
     ).then(res => res.text())
 
     expect(response).toBe('get user 101')
@@ -43,7 +43,7 @@ describe('routes', () => {
 
   test('with params deep', async () => {
     const response = await app.handle(
-      new Request('http://localhost/api/user/69/todos/420'),
+      new Request('http://localhost/user/69/todos/420'),
     ).then(res => res.json())
 
     expect(response).toMatchObject({
@@ -54,7 +54,7 @@ describe('routes', () => {
 
   test('catch all route', async () => {
     const response = await app.handle(
-      new Request('http://localhost/api/profile/spark/settings'),
+      new Request('http://localhost/profile/spark/settings'),
     ).then(res => res.json())
 
     expect(response).toMatchObject({
