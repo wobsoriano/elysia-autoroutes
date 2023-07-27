@@ -6,7 +6,7 @@ const validMethods = ['DELETE', 'GET', 'HEAD', 'PATCH', 'POST', 'PUT', 'OPTIONS'
 type ValidMethods = typeof validMethods[number]
 
 export async function autoload(app: Elysia, dirPath: string, routePrefix: string) {
-  const files = await fg('**/!(*.test).{ts,js,mjs,cjs}', {
+  const files = await fg('**/!(*.test|*.spec).{ts,js,mjs,cjs}', {
     cwd: dirPath,
     absolute: true,
     onlyFiles: true,
