@@ -1,32 +1,14 @@
 export function handleParameters(token: string) {
-  const squareBracketRegex = /\[(.*)\]/gu
-  const tsRegex = /\.ts$/u
-  const jsRegex = /\.js$/u
-  const mjsRegex = /\.mjs$/u
-  const cjsRegex = /\.cjs$/u
-  const wildCardRouteRegex = /\[\.\.\..+\]/gu
-  const multipleParamRegex = /\]-\[/gu
-  const routeParamRegex = /\]\/\[/gu
+  // Clean the url extensions like .ts or .js
+  let url = token.replace(/\.(ts|js|mjs|cjs)$/u, '')
 
-  // This will clean the url extensions like .ts or .js
-  const tokenToBeReplaced: string = token
-    .replace(tsRegex, '')
-    .replace(jsRegex, '')
-    .replace(mjsRegex, '')
-    .replace(cjsRegex, '')
-  // This will handle wild card based routes - users/[...id]/profile.ts -> users/*/profile
-  const wildCardRouteHandled: string = tokenToBeReplaced.replace(
-    wildCardRouteRegex,
-    () => '*',
-  )
+  // Handle wild card based routes - users/[...id]/profile.ts -> users/*/profile
+  url = url.replace(/\[\.\.\..+\]/gu, '*')
 
-  // This will handle the generic square bracket based routes - users/[id]/index.ts -> users/:id
-  const url: string = wildCardRouteHandled.replace(
-    squareBracketRegex,
-    (subString, match) => `:${String(match)}`,
-  )
+  // Handle generic square bracket based routes - users/[id]/index.ts -> users/:id
+  url = url.replace(/\[(.*?)\]/gu, (subString, match) => `:${match}`)
 
-  // This will handle the case when multiple parameters are present in one file like -
+  // Handle the case when multiple parameters are present in one file
   // users / [id] - [name].ts to users /: id -:name and users / [id] - [name] / [age].ts to users /: id -: name /: age
-  return url.replace(multipleParamRegex, '-:').replace(routeParamRegex, '/:')
+  return url.replace(/\]-\[/gu, '-:').replace(/\]\/\[/gu, '/:')
 }
