@@ -3,6 +3,7 @@ export function handleParameters(token: string) {
   const tsRegex = /\.ts$/u
   const jsRegex = /\.js$/u
   const mjsRegex = /\.mjs$/u
+  const cjsRegex = /\.cjs$/u
   const wildCardRouteRegex = /\[\.\.\..+\]/gu
   const multipleParamRegex = /\]-\[/gu
   const routeParamRegex = /\]\/\[/gu
@@ -12,6 +13,7 @@ export function handleParameters(token: string) {
     .replace(tsRegex, '')
     .replace(jsRegex, '')
     .replace(mjsRegex, '')
+    .replace(cjsRegex, '')
   // This will handle wild card based routes - users/[...id]/profile.ts -> users/*/profile
   const wildCardRouteHandled: string = tokenToBeReplaced.replace(
     wildCardRouteRegex,

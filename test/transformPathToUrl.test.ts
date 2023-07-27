@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test'
-import { transformPathToUrl } from '../src/transformPathToUrl'
+import { transformPathToUrl } from '../src/utils'
 
 describe('cleanUrlString', () => {
   it('1 - profile', () => {

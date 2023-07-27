@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test'
-import { handleParameters } from '../src/handleParameters'
+import { handleParameters } from '../src/utils'
 
 describe('handleParameters', () => {
   it('1 - [spark]', () => {
