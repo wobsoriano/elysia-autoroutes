@@ -16,10 +16,10 @@ export async function autoload(app: Elysia, routesDir: string, routePrefix: stri
 
   const routeModules: Record<string, any> = {}
 
-  for (const [routeName, file] of Object.entries(router.routes)) {
+  for (const [nextRouteName, file] of Object.entries(router.routes)) {
     const routeModule = await import(file)
-    const routeNameWithPrefix = transformPathToUrl(routeName)
-    routeModules[routeNameWithPrefix] = routeModule
+    const routeName = transformPathToUrl(nextRouteName)
+    routeModules[routeName] = routeModule
   }
 
   app.group(routePrefix, (app) => {
