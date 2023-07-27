@@ -1,4 +1,4 @@
-import path from 'pathe'
+import path from 'node:path'
 import { handleParameters } from './handleParameters'
 
 export function transformPathToUrl(filePath: string, routePrefix: string) {

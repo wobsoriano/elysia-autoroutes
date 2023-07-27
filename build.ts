@@ -6,7 +6,6 @@ async function build() {
     outdir: './dist',
     minify: false,
     target: 'node',
-    external: ['pathe', 'fast-glob'],
   })
 
   if (result.success)
