@@ -22,6 +22,7 @@
     "build": "bun run build.ts",
     "prepublishOnly": "bun run build",
     "lint": "eslint .",
+    "release": "bumpp && npm publish",
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
+    "bumpp": "^9.1.1",
     "bun-types": "^0.7.0",
     "dts-bundle-generator": "^8.0.1",
     "elysia": "^0.5.24",
