@@ -19,8 +19,15 @@ jobs:
       fail-fast: false
 
     steps:
-      - name: setup-bun
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v3
+      - id: setup-bun
+        name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
-        run: bun test
+      - id: test
+        name: Run test
+        run: |
+          bun test
