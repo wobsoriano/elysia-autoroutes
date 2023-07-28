@@ -15,12 +15,19 @@ export async function autoload(app: Elysia, routesDir: string, routePrefix: stri
   })
 
   const routeModules: Record<string, any> = {}
+  const importPromises: Promise<void>[] = []
 
   for (const [nextRouteName, file] of Object.entries(router.routes)) {
-    const routeModule = await import(file)
     const routeName = transformPathToUrl(nextRouteName)
-    routeModules[routeName] = routeModule
+
+    importPromises.push(
+      import(file).then((routeModule) => {
+        routeModules[routeName] = routeModule
+      }),
+    )
   }
+
+  await Promise.all(importPromises)
 
   app.group(routePrefix, (app) => {
     for (const [routeName, routeModule] of Object.entries(routeModules)) {
