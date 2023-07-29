@@ -1,14 +1,26 @@
 export function handleParameters(token: string) {
-  // Clean the url extensions like .ts or .js
-  let url = token.replace(/\.(ts|js|mjs|cjs)$/u, '')
+  const replacements = [
+    // Clean the url extensions
+    { regex: /\.(ts|js|mjs|cjs)$/u, replacement: '' },
 
-  // Handle wild card based routes - users/[...id]/profile.ts -> users/*/profile
-  url = url.replace(/\[\.\.\..+\]/gu, '*')
+    // Handle wild card based routes - users/[...id]/profile.ts -> users/*/profile
+    { regex: /\[\.\.\..+\]/gu, replacement: '*' },
 
-  // Handle generic square bracket based routes - users/[id]/index.ts -> users/:id
-  url = url.replace(/\[(.*?)\]/gu, (subString, match) => `:${match}`)
+    // Handle generic square bracket based routes - users/[id]/index.ts -> users/:id
+    { regex: /\[(.*?)\]/gu, replacement: (_subString: string, match: string) => `:${match}` },
 
-  // Handle the case when multiple parameters are present in one file
-  // users / [id] - [name].ts to users /: id -:name and users / [id] - [name] / [age].ts to users /: id -: name /: age
-  return url.replace(/\]-\[/gu, '-:').replace(/\]\/\[/gu, '/:')
+    // Handle the case when multiple parameters are present in one file
+    // users / [id] - [name].ts to users /: id -:name and users / [id] - [name] / [age].ts to users /: id -: name /: age
+    { regex: /\]-\[/gu, replacement: '-:' },
+    { regex: /\]\//gu, replacement: '/' },
+    { regex: /\[/gu, replacement: '' },
+    { regex: /\]/gu, replacement: '' },
+  ]
+
+  let url = token
+
+  for (const { regex, replacement } of replacements)
+    url = url.replace(regex, replacement as any)
+
+  return url
 }
