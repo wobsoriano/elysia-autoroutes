@@ -31,8 +31,8 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
     "bumpp": "^9.1.1",
+    "bun-plugin-dts": "^0.1.0",
     "bun-types": "^0.7.0",
-    "dts-bundle-generator": "^8.0.1",
     "elysia": "^0.5.25",
     "eslint": "^8.45.0",
     "eslint-plugin-import": "^2.27.5",
