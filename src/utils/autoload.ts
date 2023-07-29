@@ -1,4 +1,5 @@
 import path from 'node:path'
+import fs from 'node:fs'
 import type Elysia from 'elysia'
 import type { LocalHandler, LocalHook } from 'elysia'
 import { transformPathToUrl } from './transformPathToUrl'
@@ -7,9 +8,17 @@ const validMethods = ['DELETE', 'GET', 'HEAD', 'PATCH', 'POST', 'PUT', 'OPTIONS'
 type ValidMethods = typeof validMethods[number]
 
 export async function autoload(app: Elysia, routesDir: string, routePrefix: string) {
+  const dirPath = getDirPath(routesDir)
+
+  if (!fs.existsSync(dirPath))
+    throw new Error(`Directory "${dirPath}" does not exist`)
+
+  if (!fs.statSync(dirPath).isDirectory())
+    throw new Error(`"${dirPath}" is not a directory.`)
+
   const router = new Bun.FileSystemRouter({
     style: 'nextjs',
-    dir: getDirPath(routesDir),
+    dir: dirPath,
   })
 
   const routeModules: Record<string, Record<Lowercase<ValidMethods>, LocalHandler<any, any> | {
