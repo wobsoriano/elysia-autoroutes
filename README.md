@@ -10,7 +10,9 @@ bun add elysia-autoroutes
 
 ## Usage
 
-### 1. Register the plugin
+Register the plugin
+
+Note: It uses your project's `/routes` directory as source by default.
 
 ```ts
 import { Elysia } from 'elysia'
@@ -24,72 +26,48 @@ new Elysia()
   .listen(3000)
 ```
 
-### 2. Create your first route in the `routesDir` directory
+Create your first route
 
 ```ts
-// file: routes/hello.ts
-// url: http://localhost:3000/hello
-
-export function get() {
-  return 'Hello world!'
+// routes/index.ts
+export async function get() {
+  return { hello: 'world' }
 }
 ```
 
-### 3. Access params
+### Directory Structure
 
-```ts
-// file: routes/todo/[todoId].ts
-// url: http://localhost:3000/todo/:todoId
-import { Context } from 'elysia'
+Files inside your project's `/routes` directory will get matched a url path automatically.
 
-export function get(context: Context) {
-  return `Todo id: ${context.params.todoId}`
-}
+```php
+├── app.ts
+├── routes
+    ├── index.ts // index routes
+    ├── posts
+        ├── index.ts
+        └── [id].ts // dynamic params
+    └── users.ts
+└── package.json
 ```
 
-### 4. Wildcard (*) routes
+- `/routes/index.ts` → /
+- `/routes/posts/index.ts` → /posts
+- `/routes/posts/[id].ts` → /posts/:id
+- `/routes/users.ts` → /users
+
+### Examples
+
+#### HTTP Method Matching
+
+If you export functions named e.g. `get`, `post`, `put`, `patch`, `del` etc. from a route file, those will get matched their corresponding http method automatically.
 
 ```ts
-// file: routes/profile/[...id].ts
-// url: http://localhost:3000/profile/*
-import { Context } from 'elysia'
+export const get = async (context) => ({ ... })
 
-export function get(context: Context) {
-  return { wildcard: context.params }
-}
-```
+export const post = async (context) => ({ ... })
 
-### 5. Prefix route
-
-```ts
-// file: routes/hello.ts
-// url: http://localhost:3000/api/hello
-
-app.use(autoroutes({
-  routesDir: './routes',
-  prefix: '/api'
-}))
-
-export const get = () => 'Hello world!'
-```
-
-### 6. Hooks
-
-
-```ts
-// file: routes/hello.ts
-// url: POST http://localhost:3000/hello
-import { t } from 'elysia'
-
-export const post = {
-  handler: ({ body }) => body,
-  hooks: {
-    body: t.Object({
-      username: t.String(),
-      password: t.String()
-    })
-  }
-}
+// since it's not allowed to name constants 'delete', try 'del' instead
+export const del = async (context) => ({ ... })
 ```
 
 ## TODO
