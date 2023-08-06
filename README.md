@@ -64,12 +64,14 @@ Files inside your project's `/routes` directory will get matched a url path auto
 When you export functions like `get`, `post`, `put`, `patch`, `del`, etc. from a route file, they will be automatically associated with their respective HTTP methods during the matching process.
 
 ```ts
-export const get = (context) => ({ ... })
+import type { Context } from 'elysia'
 
-export const post = (context) => ({ ... })
+export const get = (context: Context) => ({ ... })
+
+export const post = (context: Context) => ({ ... })
 
 // since it's not allowed to name constants 'delete', try 'del' instead
-export const del = (context) => ({ ... })
+export const del = (context: Context) => ({ ... })
 ```
 
 #### Hooks
