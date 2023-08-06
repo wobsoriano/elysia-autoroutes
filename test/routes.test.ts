@@ -33,6 +33,22 @@ describe('routes', () => {
     expect(response).toBe('post user')
   })
 
+  test('basic put', async () => {
+    const response = await app.handle(
+      new Request('http://localhost/user', { method: 'PUT' }),
+    ).then(res => res.text())
+
+    expect(response).toBe('put user')
+  })
+
+  test('basic patch', async () => {
+    const response = await app.handle(
+      new Request('http://localhost/user', { method: 'PATCH' }),
+    ).then(res => res.text())
+
+    expect(response).toBe('patch user')
+  })
+
   test('basic delete', async () => {
     const response = await app.handle(
       new Request('http://localhost/user', { method: 'DELETE' }),
