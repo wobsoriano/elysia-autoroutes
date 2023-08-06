@@ -92,7 +92,7 @@ export const post = {
 }
 ```
 
-### Type-safety
+#### Type-safety
 
 Currently, you have the option to export the type of your primary Elysia instance and then import it into your route files.
 
