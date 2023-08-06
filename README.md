@@ -10,7 +10,7 @@ bun add elysia-autoroutes
 
 ## Usage
 
-Register the plugin
+### Register the plugin
 
 Note: It uses your project's `/routes` directory as source by default.
 
