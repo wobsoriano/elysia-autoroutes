@@ -61,7 +61,7 @@ Files inside your project's `/routes` directory will get matched a url path auto
 
 #### HTTP Method Matching
 
-If you export functions named e.g. `get`, `post`, `put`, `patch`, `del` etc. from a route file, those will get matched their corresponding http method automatically.
+When you export functions like `get`, `post`, `put`, `patch`, `del`, etc. from a route file, they will be automatically associated with their respective HTTP methods during the matching process.
 
 ```ts
 export const get = (context) => ({ ... })
