@@ -2,6 +2,8 @@
 
 File system routes for [Elysia.js](https://elysiajs.com/). Inspired by Next.js file system routing.
 
+Note: Before using this, you must know that you will not have type-safety inside route files.
+
 ## Install
 
 ```bash
