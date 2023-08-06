@@ -27,7 +27,7 @@
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "elysia": "^0.6.0"
+    "elysia": ">=0.6.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.40.0",
