@@ -2,7 +2,7 @@
 
 File system routes for [Elysia.js](https://elysiajs.com/). Inspired by Next.js file system routing.
 
-Note: Before using this, it's essential to be aware that route files do not offer type-safe context.
+Note: Before using this, it's essential to be aware that route files do not offer type-safe context. See [#77](https://github.com/elysiajs/elysia/issues/77#issuecomment-1657129158).
 
 ## Install
 
