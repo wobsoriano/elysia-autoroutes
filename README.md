@@ -62,12 +62,30 @@ Files inside your project's `/routes` directory will get matched a url path auto
 If you export functions named e.g. `get`, `post`, `put`, `patch`, `del` etc. from a route file, those will get matched their corresponding http method automatically.
 
 ```ts
-export const get = async (context) => ({ ... })
+export const get = (context) => ({ ... })
 
-export const post = async (context) => ({ ... })
+export const post = (context) => ({ ... })
 
 // since it's not allowed to name constants 'delete', try 'del' instead
-export const del = async (context) => ({ ... })
+export const del = (context) => ({ ... })
+```
+
+### Hooks
+
+Convert a function to an object with a `handler` and a `hooks` property:
+
+```ts
+import { t } from 'elysia'
+
+export const post = {
+  handler: ({ body }) => body,
+  hooks: {
+    body: t.Object({
+      username: t.String(),
+      password: t.String()
+    })
+  }
+}
 ```
 
 ## TODO
