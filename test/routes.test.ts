@@ -33,6 +33,14 @@ describe('routes', () => {
     expect(response).toBe('post user')
   })
 
+  test('basic delete', async () => {
+    const response = await app.handle(
+      new Request('http://localhost/user', { method: 'DELETE' }),
+    ).then(res => res.text())
+
+    expect(response).toBe('delete user')
+  })
+
   test('with params', async () => {
     const response = await app.handle(
       new Request('http://localhost/user/101'),

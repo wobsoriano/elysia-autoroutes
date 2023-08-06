@@ -4,7 +4,7 @@ import type Elysia from 'elysia'
 import type { LocalHandler, LocalHook } from 'elysia'
 import { transformPathToUrl } from './transformPathToUrl'
 
-const validMethods = ['DELETE', 'GET', 'HEAD', 'PATCH', 'POST', 'PUT', 'OPTIONS'] as const
+const validMethods = ['delete', 'get', 'head', 'patch', 'post', 'put', 'options'] as const
 type ValidMethods = typeof validMethods[number]
 
 export async function autoload(app: Elysia, routesDir: string) {
@@ -21,7 +21,7 @@ export async function autoload(app: Elysia, routesDir: string) {
     dir: dirPath,
   })
 
-  const routeModules: Record<string, Record<Lowercase<ValidMethods>, LocalHandler<any, any> | {
+  const routeModules: Record<string, Record<ValidMethods, LocalHandler<any, any> | {
     handler: LocalHandler<any, any>
     hooks?: LocalHook<any, any>
   }>> = {}
@@ -41,12 +41,12 @@ export async function autoload(app: Elysia, routesDir: string) {
 
   for (const [routeName, routeModule] of Object.entries(routeModules)) {
     for (const [method, handler] of Object.entries(routeModule)) {
-      const normalizedMethod = method.toUpperCase() === 'DEL' ? 'DELETE' : method.toUpperCase() as ValidMethods
+      const normalizedMethod = method === 'del' ? 'delete' : method.toLowerCase() as ValidMethods
       if (validMethods.includes(normalizedMethod)) {
         if (typeof handler === 'function')
-          app[method as unknown as Lowercase<ValidMethods>](routeName, handler)
+          app[normalizedMethod](routeName, handler)
         else
-          app[method as unknown as Lowercase<ValidMethods>](routeName, handler.handler, handler.hooks)
+          app[normalizedMethod](routeName, handler.handler, handler.hooks)
       }
     }
   }
