@@ -42,7 +42,7 @@ export async function autoload(app: Elysia, routesDir: string, routePrefix: stri
   app.group(routePrefix, (app) => {
     for (const [routeName, routeModule] of Object.entries(routeModules)) {
       for (const [method, handler] of Object.entries(routeModule)) {
-        const normalizedMethod = method.toUpperCase() as ValidMethods
+        const normalizedMethod = method.toUpperCase() === 'DEL' ? 'DELETE' : method.toUpperCase() as ValidMethods
         if (validMethods.includes(normalizedMethod)) {
           if (typeof handler === 'function')
             app[method as unknown as Lowercase<ValidMethods>](routeName, handler)
