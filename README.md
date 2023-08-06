@@ -70,7 +70,7 @@ export const post = (context) => ({ ... })
 export const del = (context) => ({ ... })
 ```
 
-### Hooks
+#### Hooks
 
 Convert a function to an object with a `handler` and a `hooks` property:
 
