@@ -7,7 +7,7 @@ import { transformPathToUrl } from './transformPathToUrl'
 const validMethods = ['DELETE', 'GET', 'HEAD', 'PATCH', 'POST', 'PUT', 'OPTIONS'] as const
 type ValidMethods = typeof validMethods[number]
 
-export async function autoload(app: Elysia, routesDir: string, routePrefix: string) {
+export async function autoload(app: Elysia, routesDir: string) {
   const dirPath = getDirPath(routesDir)
 
   if (!fs.existsSync(dirPath))
@@ -39,21 +39,17 @@ export async function autoload(app: Elysia, routesDir: string, routePrefix: stri
 
   await Promise.all(importPromises)
 
-  app.group(routePrefix, (app) => {
-    for (const [routeName, routeModule] of Object.entries(routeModules)) {
-      for (const [method, handler] of Object.entries(routeModule)) {
-        const normalizedMethod = method.toUpperCase() === 'DEL' ? 'DELETE' : method.toUpperCase() as ValidMethods
-        if (validMethods.includes(normalizedMethod)) {
-          if (typeof handler === 'function')
-            app[method as unknown as Lowercase<ValidMethods>](routeName, handler)
-          else
-            app[method as unknown as Lowercase<ValidMethods>](routeName, handler.handler, handler.hooks)
-        }
+  for (const [routeName, routeModule] of Object.entries(routeModules)) {
+    for (const [method, handler] of Object.entries(routeModule)) {
+      const normalizedMethod = method.toUpperCase() === 'DEL' ? 'DELETE' : method.toUpperCase() as ValidMethods
+      if (validMethods.includes(normalizedMethod)) {
+        if (typeof handler === 'function')
+          app[method as unknown as Lowercase<ValidMethods>](routeName, handler)
+        else
+          app[method as unknown as Lowercase<ValidMethods>](routeName, handler.handler, handler.hooks)
       }
     }
-
-    return app
-  })
+  }
 }
 
 function getDirPath(dir: string) {
