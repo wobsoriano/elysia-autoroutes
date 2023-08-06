@@ -2,8 +2,6 @@
 
 File system routes for [Elysia.js](https://elysiajs.com/). Inspired by Next.js file system routing.
 
-Note: Before using this, it's essential to be aware that route files do not offer type-safe context. See [#77](https://github.com/elysiajs/elysia/issues/77#issuecomment-1657129158).
-
 ## Install
 
 ```bash
@@ -20,12 +18,14 @@ Note: It uses your project's `/routes` directory as source by default.
 import { Elysia } from 'elysia'
 import { autoroutes } from 'elysia-autoroutes'
 
-new Elysia()
+const app = new Elysia()
   .use(autoroutes({
     routesDir: './routes',
     prefix: '/api' // -> optional
   }))
   .listen(3000)
+
+export type ElysiaApp = typeof app
 ```
 
 Create your first route
@@ -92,9 +92,20 @@ export const post = {
 }
 ```
 
-## TODO
+### Type-safety
 
-Context and hook types.
+Currently, you have the option to export the type of your primary Elysia instance and then import it into your route files.
+
+```ts
+import type { Context } from 'elysia'
+import type { ElysiaApp } from '../app'
+
+export function get({ store }: Context<ElysiaApp['router'], ElysiaApp['store']>) {
+  return {
+    version: store.version
+  }
+}
+```
 
 ## License
 
