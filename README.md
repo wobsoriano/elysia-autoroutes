@@ -7,7 +7,7 @@ Note: Before using this, it's essential to be aware that route files do not offe
 ## Install
 
 ```bash
-bun add elysia-autoroutes
+bun install elysia-autoroutes
 ```
 
 ## Usage
