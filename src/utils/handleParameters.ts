@@ -1,7 +1,7 @@
 export function handleParameters(token: string) {
   const replacements = [
     // Clean the url extensions
-    { regex: /\.(ts|js|mjs|cjs)$/u, replacement: '' },
+    { regex: /\.(ts|js|mjs|cjs|jsx|tsx)$/u, replacement: '' },
 
     // Handle wild card based routes - users/[...id]/profile.ts -> users/*/profile
     { regex: /\[\.\.\..+\]/gu, replacement: '*' },
