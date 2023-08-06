@@ -1,6 +1,6 @@
 {
   "name": "elysia-autoroutes",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "File system routing for Elysia.",
   "author": "Robert Soriano <sorianorobertc@gmail.com>",
   "license": "MIT",
