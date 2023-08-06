@@ -19,6 +19,7 @@
     "dist"
   ],
   "scripts": {
+    "dev": "bun run ./playground/index.ts",
     "build": "bun run build.ts",
     "prepublishOnly": "bun run build",
     "lint": "eslint .",
