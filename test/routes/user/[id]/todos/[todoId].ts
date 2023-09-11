@@ -1,3 +1,3 @@
-import type { Context } from 'elysia'
+import type Elysia from 'elysia'
 
-export const get = (context: Context) => context.params
+export default (app: Elysia) => app.get('/', context => context.params)

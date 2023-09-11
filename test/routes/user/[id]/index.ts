@@ -1,3 +1,4 @@
-import type { Context } from 'elysia'
+import type Elysia from 'elysia'
+import { t } from 'elysia'
 
-export const get = (context: Context) => `get user ${context.params?.id}`
+export default (app: Elysia) => app.get('/', context => `get user ${context.params?.id}`, { params: t.Object({ id: t.String() }) })
