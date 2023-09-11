@@ -26,6 +26,10 @@ const app = new Elysia()
   .listen(3000)
 
 export type ElysiaApp = typeof app
+export type GetHandler = Parameters<typeof app.get>[1];
+export type PostHandler = Parameters<typeof app.post>[1];
+export type PutHandler = Parameters<typeof app.put>[1];
+export type DelHandler = Parameters<typeof app.delete>[1];
 ```
 
 Create your first route
@@ -98,9 +102,9 @@ Currently, you have the option to export the type of your primary Elysia instanc
 
 ```ts
 import type { Context } from 'elysia'
-import type { ElysiaApp } from '../app'
+import type { GetHandler } from '../app'
 
-export function get({ store }: Context<ElysiaApp['router'], ElysiaApp['store']>) {
+export function get({ store }: GetHandler) {
   return {
     version: store.version
   }
