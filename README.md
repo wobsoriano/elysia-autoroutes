@@ -26,6 +26,10 @@ const app = new Elysia()
   .listen(3000)
 
 export type ElysiaApp = typeof app
+export type GetHandler = Parameters<typeof app.get>[1];
+export type PostHandler = Parameters<typeof app.post>[1];
+export type PutHandler = Parameters<typeof app.put>[1];
+export type DelHandler = Parameters<typeof app.delete>[1];
 ```
 
 Create your first route
