@@ -1,6 +1,6 @@
 # elysia-autoroutes
 
-File system routes for [Elysia.js](https://elysiajs.com/). Inspired by Next.js file system routing.
+File system routes for [Elysia.js](https://elysiajs.com/).
 
 ## Install
 
