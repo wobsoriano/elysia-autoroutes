@@ -1,13 +1,10 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import type Elysia from 'elysia'
-import type { LocalHandler, LocalHook } from 'elysia'
+import type { ElysiaDefaultMeta, ElysiaInstance, TypedSchema } from 'elysia'
 import { transformPathToUrl } from './transformPathToUrl'
 
-const validMethods = ['delete', 'get', 'head', 'patch', 'post', 'put', 'options'] as const
-type ValidMethods = typeof validMethods[number]
-
-export async function autoload(app: Elysia, routesDir: string) {
+export async function autoload<T extends ElysiaInstance<{ store?: Record<string, unknown> | undefined; request?: Record<string, unknown> | undefined; error?: Record<string, Error> | undefined; schema?: TypedSchema<any> | undefined; meta?: ElysiaDefaultMeta | undefined }>>(app: Elysia<string, T>, routesDir: string) {
   const dirPath = getDirPath(routesDir)
 
   if (!fs.existsSync(dirPath))
@@ -21,10 +18,7 @@ export async function autoload(app: Elysia, routesDir: string) {
     dir: dirPath,
   })
 
-  const routeModules: Record<string, Record<ValidMethods, LocalHandler<any, any> | {
-    handler: LocalHandler<any, any>
-    hooks?: LocalHook<any, any>
-  }>> = {}
+  const routeModules: Record<string, (group: Elysia<string, T>) => Elysia<string, T>> = {}
   const importPromises: Promise<void>[] = []
 
   for (const [nextRouteName, file] of Object.entries(router.routes)) {
@@ -32,24 +26,15 @@ export async function autoload(app: Elysia, routesDir: string) {
 
     importPromises.push(
       import(file).then((routeModule) => {
-        routeModules[routeName] = routeModule
+        routeModules[routeName] = routeModule.default
       }),
     )
   }
 
   await Promise.all(importPromises)
 
-  for (const [routeName, routeModule] of Object.entries(routeModules)) {
-    for (const [method, handler] of Object.entries(routeModule)) {
-      const normalizedMethod = method === 'del' ? 'delete' : method.toLowerCase() as ValidMethods
-      if (validMethods.includes(normalizedMethod)) {
-        if (typeof handler === 'function')
-          app[normalizedMethod](routeName, handler)
-        else
-          app[normalizedMethod](routeName, handler.handler, handler.hooks)
-      }
-    }
-  }
+  for (const [routeName, routeModule] of Object.entries(routeModules))
+    app.group<Elysia<string, T>, string>(routeName, routeModule)
 }
 
 function getDirPath(dir: string) {

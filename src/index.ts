@@ -22,7 +22,6 @@ export function autoroutes(options?: Options) {
 
   return async function plugin(app: Elysia) {
     await autoload(autoroutesPlugin, routesDir)
-
     app.use(autoroutesPlugin)
 
     return app

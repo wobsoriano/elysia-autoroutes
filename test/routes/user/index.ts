@@ -1,9 +1,8 @@
-export const get = () => 'get user'
+import type Elysia from 'elysia'
 
-export const post = () => 'post user'
-
-export const put = () => 'put user'
-
-export const patch = () => 'patch user'
-
-export const del = () => 'delete user'
+export default (app: Elysia) => app
+  .get('/', () => 'get user')
+  .post('/', () => 'post user')
+  .put('/', () => 'put user')
+  .patch('/', () => 'patch user')
+  .delete('/', () => 'delete user')

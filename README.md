@@ -36,9 +36,9 @@ Create your first route
 
 ```ts
 // routes/index.ts
-export async function get() {
-  return { hello: 'world' }
-}
+import type Elysia from 'elysia'
+
+export default (app: Elysia) => app.get('/', { hello: 'world' })
 ```
 
 ### Directory Structure
@@ -68,47 +68,30 @@ Files inside your project's `/routes` directory will get matched a url path auto
 When you export functions like `get`, `post`, `put`, `patch`, `del`, etc. from a route file, they will be automatically associated with their respective HTTP methods during the matching process.
 
 ```ts
-import type { Context } from 'elysia'
+import type Elysia from 'elysia'
 
-export const get = (context: Context) => ({ ... })
-
-export const post = (context: Context) => ({ ... })
-
-// since it's not allowed to name constants 'delete', try 'del' instead
-export const del = (context: Context) => ({ ... })
-```
-
-#### Hooks
-
-Convert a function to an object with a `handler` and a `hooks` property:
-
-```ts
-import { t } from 'elysia'
-
-export const post = {
-  handler: ({ body }) => body,
-  hooks: {
-    body: t.Object({
-      username: t.String(),
-      password: t.String()
-    })
-  }
-}
+export default (app: Elysia) => app
+  .get('/', () => ({ ... }))
+  .post('/', () => ({ ... }))
+  .put('/', () => ({ ... }))
+  .patch('/', () => ({ ... }))
+  .delete('/', () => ({ ... }))
 ```
 
 #### Type-safety
 
-Currently, you have the option to export the type of your primary Elysia instance and then import it into your route files.
+You have the option to export the type of your primary Elysia instance and then import it into your route files.
+
+Feel free to access application state and use decorators. 
+
+You can have type safety for `params` and `body` by defining hooks.
 
 ```ts
-import type { Context } from 'elysia'
-import type { GetHandler } from '../app'
+import type { ElysiaApp } from '../app'
 
-export function get({ store }: GetHandler) {
-  return {
-    version: store.version
-  }
-}
+export default (app: ElysiaApp) => app
+  .get('/', ({ store }) => ({ version: store.version }))
+  .post('/', ({ store }) => ({ version: store.version }), { hooks: { params: T.Object({ id: T.String() }) } })
 ```
 
 ## License

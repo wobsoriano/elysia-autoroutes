@@ -6,6 +6,18 @@ const app = new Elysia()
   .use(autoroutes({ routesDir: './routes' }))
   .listen(8000)
 
+export const appWithState = new Elysia()
+  .state({ magic: 42 })
+  .decorate('boop', () => 'BOP')
+  .use(autoroutes({ routesDir: './routes' }))
+  .listen(7000)
+
+const appWithPrefix = new Elysia()
+  .use(autoroutes({ routesDir: './routes', prefix: '/api' }))
+  .listen(6000)
+
+export type ElysiaApp = typeof appWithState
+
 describe('routes', () => {
   afterAll(() => app.stop())
 
@@ -84,5 +96,24 @@ describe('routes', () => {
     expect(response).toMatchObject({
       '*': 'spark/settings',
     })
+  })
+
+  test('use state from main app', async () => {
+    const response = await appWithState.handle(
+      new Request('http://localhost/user/6/projects'),
+    ).then(res => res.json())
+
+    expect(response).toMatchObject({
+      check: 'BOP',
+      answer: 42,
+    })
+  })
+
+  test('use prefix', async () => {
+    const response = await appWithPrefix.handle(
+      new Request('http://localhost/api/user', { method: 'PUT' }),
+    ).then(res => res.text())
+
+    expect(response).toBe('put user')
   })
 })
