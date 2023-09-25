@@ -10,11 +10,11 @@ export const appWithState = new Elysia()
   .state({ magic: 42 })
   .decorate('boop', () => 'BOP')
   .use(autoroutes({ routesDir: './routes' }))
-  .listen(7000)
+  .listen(8001)
 
 const appWithPrefix = new Elysia()
   .use(autoroutes({ routesDir: './routes', prefix: '/api' }))
-  .listen(6000)
+  .listen(8002)
 
 export type ElysiaApp = typeof appWithState
 
