@@ -1,6 +1,6 @@
-import type Elysia from 'elysia'
+import type { ElysiaApp } from '../'
 
-export default (app: Elysia) => app.get('/', async () => {
+export default (app: ElysiaApp) => app.get('/', async (ctx) => {
   const response = await fetch('https://jsonplaceholder.typicode.com/users')
   const data = await response.json()
   return data
