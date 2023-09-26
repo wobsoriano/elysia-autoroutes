@@ -1,10 +1,10 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import type Elysia from 'elysia'
-import type { ElysiaDefaultMeta, ElysiaInstance, TypedSchema } from 'elysia'
+import type { DecoratorBase } from 'elysia'
 import { transformPathToUrl } from './transformPathToUrl'
 
-export async function autoload<T extends ElysiaInstance<{ store?: Record<string, unknown> | undefined; request?: Record<string, unknown> | undefined; error?: Record<string, Error> | undefined; schema?: TypedSchema<any> | undefined; meta?: ElysiaDefaultMeta | undefined }>>(app: Elysia<string, T>, routesDir: string) {
+export async function autoload<Decorator extends DecoratorBase>(app: Elysia<string, Decorator>, routesDir: string) {
   const dirPath = getDirPath(routesDir)
 
   if (!fs.existsSync(dirPath))
@@ -18,7 +18,7 @@ export async function autoload<T extends ElysiaInstance<{ store?: Record<string,
     dir: dirPath,
   })
 
-  const routeModules: Record<string, (group: Elysia<string, T>) => Elysia<string, T>> = {}
+  const routeModules: Record<string, (group: Elysia<string, Decorator>) => Elysia<string, Decorator>> = {}
   const importPromises: Promise<void>[] = []
 
   for (const [nextRouteName, file] of Object.entries(router.routes)) {
@@ -34,7 +34,7 @@ export async function autoload<T extends ElysiaInstance<{ store?: Record<string,
   await Promise.all(importPromises)
 
   for (const [routeName, routeModule] of Object.entries(routeModules))
-    app.group<Elysia<string, T>, string>(routeName, routeModule)
+    app.group<Elysia<string, Decorator>, string>(routeName, routeModule)
 }
 
 function getDirPath(dir: string) {
