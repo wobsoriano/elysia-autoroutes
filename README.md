@@ -5,7 +5,7 @@ File system routes for [Elysia.js](https://elysiajs.com/).
 ## Install
 
 ```bash
-bun install elysia elysia-autoroutes
+bun install elysia-autoroutes
 ```
 
 ## Usage
