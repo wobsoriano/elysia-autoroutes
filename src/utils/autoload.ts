@@ -4,7 +4,7 @@ import type Elysia from 'elysia'
 import type { DecoratorBase } from 'elysia'
 import { transformPathToUrl } from './transformPathToUrl'
 
-export async function autoload<Decorator extends DecoratorBase>(app: Elysia<string, Decorator>, routesDir: string) {
+export async function autoload<Decorator extends DecoratorBase>(app: Elysia<string, Decorator>, routesDir: string, generateTags: boolean) {
   const dirPath = getDirPath(routesDir)
 
   if (!fs.existsSync(dirPath))
@@ -33,8 +33,22 @@ export async function autoload<Decorator extends DecoratorBase>(app: Elysia<stri
 
   await Promise.all(importPromises)
 
-  for (const [routeName, routeModule] of Object.entries(routeModules))
-    app.group<Elysia<string, Decorator>, string>(routeName, routeModule)
+  for (const [routeName, routeModule] of Object.entries(routeModules)) {
+    app.group<Elysia<string, Decorator>, string>(routeName, (app) => {
+      const mappedApp = routeModule(app)
+
+      if (generateTags) {
+        mappedApp.routes.forEach((route) => {
+          if (route.hooks.detail)
+            route.hooks.detail.tags = [...route.hooks.detail.tags || [], routeName]
+          else
+            Object.assign(route.hooks, { detail: { tags: [routeName] } })
+        })
+      }
+
+      return mappedApp
+    })
+  }
 }
 
 function getDirPath(dir: string) {

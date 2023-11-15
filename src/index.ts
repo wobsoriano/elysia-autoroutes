@@ -4,13 +4,15 @@ import { autoload } from './utils'
 export interface Options {
   routesDir?: string
   prefix?: string
+  generateTags?: boolean
 }
 
 export function autoroutes(options?: Options) {
-  const { routesDir, prefix } = {
+  const { routesDir, prefix, generateTags } = {
     ...options,
     routesDir: options?.routesDir ?? './routes',
     prefix: options?.prefix ?? '',
+    generateTags: options?.generateTags ?? true,
   }
 
   const seed = { routesDir, prefix }
@@ -21,7 +23,7 @@ export function autoroutes(options?: Options) {
   })
 
   return async function plugin(app: Elysia) {
-    await autoload(autoroutesPlugin, routesDir)
+    await autoload(autoroutesPlugin, routesDir, generateTags)
     app.use(autoroutesPlugin)
 
     return app
