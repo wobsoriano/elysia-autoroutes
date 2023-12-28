@@ -45,7 +45,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.40.0",
     "@types/bun": "^1.0.0",
-    "bumpp": "^9.1.1",
+    "bumpp": "^9.2.1",
     "bunchee": "^4.2.6",
     "elysia": "^0.8.5",
     "eslint": "^8.46.0",
